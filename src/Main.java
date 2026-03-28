@@ -1,3 +1,4 @@
+import commandsmanager.сommands.Clear;
 import data.DataCommands;
 import data.DataInitializer;
 

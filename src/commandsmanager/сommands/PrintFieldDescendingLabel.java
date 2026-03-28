@@ -13,28 +13,17 @@ public class PrintFieldDescendingLabel extends Command {
     @Override
     public void execute() {
 
-        ClassesManager classesManager = ClassesManager.getInstance();
-        Hashtable<Integer, MusicBand> map = classesManager.getMap();
-        ArrayList<Integer> labels = new ArrayList<>();
-        for (int key : map.keySet()) {
-            labels.add(map.get(key).getLabel().getBands());
-        }
-        Collections.sort(labels, Collections.reverseOrder());
-        print_label(labels);
+        System.out.print("Labels: ");
+        ClassesManager.getInstance().getMap().keySet().stream()
+                .map(e -> ClassesManager.getInstance().getMap().get(e).getLabel().getBands())
+                .sorted((a, b) -> b - a)
+                .forEach(e -> System.out.print(e + " "));
+
+        System.out.println();
 
 
     }
 
-    public void print_label(ArrayList<Integer> labels) {
-        StringBuilder builder = new StringBuilder();
-        builder.append("Labels: ");
-        for (int i : labels) {
-            builder.append(i).append(" ");
-        }
-        System.out.println();
-        System.out.println(builder);
-        System.out.println();
-    }
 
     @Override
     public void execute(String value1) {

@@ -17,18 +17,17 @@ public class FilterLessThanLabel extends Command {
     @Override
     public void execute(String value1) {
         int label = checkInteger(value1);
-        int count = 0;
         ClassesManager classesManager = ClassesManager.getInstance();
-        Hashtable<Integer, MusicBand> map = classesManager.getMap();
 
-        for (int key : map.keySet()) {
-            if (label > map.get(key).getLabel().getBands()) {
-                count++;
-            }
-        }
+        long result = classesManager.getMap().keySet().stream()
+                //Делаем список из полей Label
+                .map(e -> classesManager.getMap().get(e).getLabel().getBands())
+                .filter(e -> e < label)
+                .count();
+
 
         System.out.println();
-        System.out.println("The number of elements less than " + Colors.GREEN + label + Colors.RESET + " is " + Colors.GREEN + count + Colors.RESET);
+        System.out.println("The number of elements less than " + Colors.GREEN + label + Colors.RESET + " is " + Colors.GREEN + result + Colors.RESET);
         System.out.println();
 
     }
@@ -55,6 +54,6 @@ public class FilterLessThanLabel extends Command {
 
     @Override
     public String commandInfo() {
-        return "вывести элементы, значение поля label которых меньше заданного";
+        return "вывести количество элементов, значение поля label которых меньше заданного";
     }
 }

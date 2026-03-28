@@ -135,6 +135,7 @@ public class ClassesManager {                           // переписать 
     @Override
     public String toString() {
         StringBuilder s = new StringBuilder();
+
         for (Integer key : getActiveMap().keySet()) {
             s.append(Colors.GREEN)
                     .append("Key: ").append(Colors.RESET).append(key).append("\n")
@@ -185,7 +186,7 @@ public class ClassesManager {                           // переписать 
     }
 
 
-    public Hashtable<Integer, MusicBand> getActiveMap() {
+    private Hashtable<Integer, MusicBand> getActiveMap() {
         if (isInTransaction()) {
             return tempMap;
         } else {

@@ -14,16 +14,20 @@ public class CountByNumberOfParticipants extends Command {
     @Override
     public void execute(String value1) {
         ClassesManager classesManager = ClassesManager.getInstance();
-        int count_participant = 0;
         int number_of_participants = checkInteger(value1);
-        for (int key : classesManager.getMap().keySet()) {
-            if (classesManager.getMap().get(key).getNumberOfParticipants() == number_of_participants) {
-                count_participant++;
-            }
-        }
+
+
+        long result = classesManager.getMap().keySet().stream()
+                //Превратили в список значений numberOfParticipants
+                .map(e -> classesManager.getMap().get(e).getNumberOfParticipants())
+                // Отфильтровали совпадающие
+                .filter(e -> e == number_of_participants).count();
+
+
+
         System.out.println();
         System.out.println("The number participants of equal " + Colors.GREEN + number_of_participants + Colors.RESET +
-                "s is " + Colors.GREEN + count_participant + Colors.RESET);
+                "s is " + Colors.GREEN + result + Colors.RESET);
         System.out.println();
 
     }

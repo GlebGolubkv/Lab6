@@ -20,6 +20,7 @@ public class RemoveKey extends Command {
         ClassesManager cm = ClassesManager.getInstance();
         if (cm.keyInMap(key)) {
             cm.removeMusicBandFromCollection(key);
+
             System.out.println();
             System.out.println("Key " + Colors.GREEN + key + Colors.RESET + " removed");
             System.out.println();

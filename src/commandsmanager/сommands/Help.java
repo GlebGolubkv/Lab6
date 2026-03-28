@@ -5,6 +5,8 @@ import data.DataCommands;
 import dataclasses.MusicBand;
 import termenalmanager.Colors;
 
+import java.util.stream.Stream;
+
 public class Help extends Command {
 
     public Help() {
@@ -13,17 +15,17 @@ public class Help extends Command {
 
     @Override
     public void execute() {
-        StringBuilder helpCommands = new StringBuilder();
-        DataCommands data = DataCommands.getInstance();
-        for (String name : data.getNames()) {
-            helpCommands.append(Colors.WHITE + "Command: " + Colors.GREEN)
-                    .append(name).append(" : " + Colors.RESET).append(data.getCommand(name).commandInfo()).append("\n");
 
-        }
         System.out.println();
-        System.out.println(Colors.GREEN + "сommands: " + Colors.RESET);
-        System.out.println(helpCommands);
+        System.out.println(Colors.GREEN + "Commands: " + Colors.RESET);
+        DataCommands.getInstance().getNames().stream()
+                .sorted((a, b) -> b.length() - a.length())
+                .forEach(name -> System.out.println(Colors.WHITE + "Command: " + Colors.GREEN
+                        + name +
+                        " : " + Colors.RESET
+                        + DataCommands.getInstance().getCommand(name).commandInfo()));
         System.out.println();
+
 
     }
 

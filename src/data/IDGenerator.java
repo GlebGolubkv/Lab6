@@ -3,6 +3,7 @@ package data;
 import dataclasses.MusicBand;
 
 import java.util.Hashtable;
+import java.util.stream.Stream;
 
 
 public class IDGenerator {
@@ -19,6 +20,7 @@ public class IDGenerator {
                 maxId = (mb.getId() + 1);
             }
         }
+
 
         return maxId;
     }
