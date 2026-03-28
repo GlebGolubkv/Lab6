@@ -10,18 +10,9 @@ public class IDGenerator {
 
     public int generateNewID() {
 
-        int maxId = 1;
+        return ClassesManager.getInstance().getMap().values().stream()
+                .map(e -> e.getId())
+                .max((a, b) -> (a - b)).orElse(0) + 1;
 
-
-        Hashtable<Integer, MusicBand> Map = ClassesManager.getInstance().getMap();
-
-        for (MusicBand mb : Map.values()) {
-            if (maxId <= mb.getId()) {
-                maxId = (mb.getId() + 1);
-            }
-        }
-
-
-        return maxId;
     }
 }

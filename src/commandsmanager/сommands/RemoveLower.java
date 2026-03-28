@@ -7,27 +7,23 @@ import termenalmanager.BandsInputTerminal;
 import termenalmanager.Colors;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class RemoveLower extends Command {
     @Override
     public void execute() {
 
-        Scanner scanner = new Scanner(System.in);
-        ClassesManager classesManager = ClassesManager.getInstance();
-        MusicBand inputMusicBand = BandsInputTerminal.getInstance().inputBand(scanner);
-        ArrayList<String> removedKeys = new ArrayList<>();
+        MusicBand inputMusicBand = BandsInputTerminal.getInstance().inputBand(new Scanner(System.in));
 
-        for (int key : classesManager.getMap().keySet()) {
-            if (inputMusicBand.compareTo(classesManager.getMap().get(key)) > 0) {
+        List<String> collect = ClassesManager.getInstance().getMap().keySet()
+                .stream()
+                .filter(e -> inputMusicBand.compareTo(ClassesManager.getInstance().getMap().get(e)) > 0)
+                .map(e -> String.valueOf(e))
+                .toList();
 
-                removedKeys.add(String.valueOf(key));
-
-            }
-        }
-
-
-        for (String key : removedKeys) {
+        for (String key : collect) {
             new RemoveKey().execute(key);
         }
 
@@ -47,16 +43,14 @@ public class RemoveLower extends Command {
     @Override
     public void execute(MusicBand value1) {
 
-        ClassesManager classesManager = ClassesManager.getInstance();
-        ArrayList<String> removedKeys = new ArrayList<>();
+        List<String> collect = ClassesManager.getInstance().getMap().keySet()
+                .stream()
+                .filter(e -> value1.compareTo(ClassesManager.getInstance().getMap().get(e)) > 0)
+                .map(e -> String.valueOf(e))
+                .toList();
 
-        for (int key : classesManager.getMap().keySet()) {
-            if (value1.compareTo(classesManager.getMap().get(key)) > 0) {
-
-                removedKeys.add(String.valueOf(key));
-
-            }
-
+        for (String key : collect) {
+            new RemoveKey().execute(key);
         }
     }
 

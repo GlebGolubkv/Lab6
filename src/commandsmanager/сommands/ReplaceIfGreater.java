@@ -16,11 +16,13 @@ public class ReplaceIfGreater extends Command {
 
     @Override
     public void execute(String value1) {
+
         int key = checkInteger(value1);
-        Scanner scanner = new Scanner(System.in);
+
         ClassesManager cm = ClassesManager.getInstance();
         MusicBand oldMusicBand = cm.getMap().get(key);
-        MusicBand newMusicBand = BandsInputTerminal.getInstance().inputBand(scanner);
+
+        MusicBand newMusicBand = BandsInputTerminal.getInstance().inputBand(new Scanner(System.in));
         if (newMusicBand.compareTo(oldMusicBand) > 0) {
             cm.getMap().put(key, newMusicBand);
             System.out.println();

@@ -70,7 +70,9 @@ public class MusicBand implements Comparable<MusicBand> {
      * @param label                 the label, must not be null
      * @throws IllegalArgumentException if any validation constraint is violated
      */
-    public MusicBand(Integer id, String name, Coordinates coordinates, ZonedDateTime creationDate, long numberOfParticipants, long albumsCount, MusicGenre genre, Label label) {
+    public MusicBand(Integer id, String name, Coordinates coordinates, ZonedDateTime creationDate,
+                     long numberOfParticipants, long albumsCount, MusicGenre genre, Label label) {
+
         if (id == null || id <= 0) { // уникальное и генерироваиттся автоматически
             throw new IllegalArgumentException("id is null or negative");
         }
