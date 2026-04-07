@@ -16,12 +16,13 @@ soul
 12
 help
 insert 7
-fil
+fuck
 12
 12
 12
 12
 soul
 12
+begin_transaction
 show
 commit_transaction
