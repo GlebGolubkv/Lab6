@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import common.dataclasses.CommandType;
 import common.Request;
 import common.Response;
-import server.commands.servercommands.Save;
+
 import server.data.DataCommands;
 import common.dataclasses.MusicBand;
 import server.data.generators.IDGenerator;
@@ -12,6 +12,9 @@ import server.data.generators.IDGenerator;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.*;
+
+import java.time.ZonedDateTime;
+import java.util.logging.Logger;
 
 public class ServerNetworkManager {
 
@@ -22,6 +25,7 @@ public class ServerNetworkManager {
     private static final SocketAddress socketAddress = new InetSocketAddress(HOSTNAME, PORT);
     private static final int TIMEOUT = 3000;
     private volatile boolean shouldShutdown = false;
+
 
 
     public ServerNetworkManager() {
@@ -39,8 +43,7 @@ public class ServerNetworkManager {
 
             socket.setSoTimeout(TIMEOUT);
 
-            System.out.println("Server started on port: " + PORT);
-
+            System.out.println("Server started on port: " +  PORT);
 
             while (!shouldShutdown) {
 
@@ -54,7 +57,7 @@ public class ServerNetworkManager {
 
                     //сохранение отправителя
                     InetSocketAddress sender = new InetSocketAddress(packet.getAddress(), packet.getPort());
-                    Response response = null;
+                    Response response;
 
                     // создание запроса и обработка
                     try {
@@ -88,6 +91,8 @@ public class ServerNetworkManager {
 
         System.out.println();
         System.out.println("Got request: " + request.getCommandType() + " : " + request.getArgument());
+        System.out.println("Time: " + ZonedDateTime.now());
+
 
         CommandType commandType = request.getCommandType();
         String commandArgument = request.getArgument();

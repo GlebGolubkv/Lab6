@@ -1,10 +1,9 @@
 package common.dataclasses;
 
-import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public enum CommandType implements Serializable {
+public enum CommandType {
 
     BEGIN_TRANSACTION(
             "begin_transaction",

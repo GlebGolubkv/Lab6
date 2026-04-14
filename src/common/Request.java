@@ -4,10 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import common.dataclasses.CommandType;
 import common.dataclasses.MusicBand;
 
-import java.io.Serializable;
-
-public class Request implements Serializable {
-    private static final long serialVersionUID = 1L;
+public class Request {
     private CommandType commandType;
     private String argument;
     private MusicBand musicBand;

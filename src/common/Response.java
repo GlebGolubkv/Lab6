@@ -2,17 +2,14 @@ package common;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 
-import java.io.Serializable;
+public class Response {
 
-public class Response implements Serializable {
-
-    private static long serialVersionUID = 1L;
     private boolean success;
     private String message;
     private StringBuilder data;
 
-    public Response() {}
-
+    public Response() {
+    }
 
 
     public Response(boolean success, String message) {
@@ -34,9 +31,6 @@ public class Response implements Serializable {
     public static Response fromJson(String json) throws JsonProcessingException {
         return JsonDataMapper.getInstance().getMapper().readValue(json, Response.class);
     }
-
-
-
 
 
     public boolean isSuccess() {

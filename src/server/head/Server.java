@@ -12,20 +12,14 @@ public class Server {
         String fileName = args[0];
 
 
-        // при желании подставить введение имени файла
         DataInitializer.initialize(fileName);
         Scanner scanner = new Scanner(System.in);
-
-
-
-
-
 
 
         try {
             ServerNetworkManager serverNetworkManager = new ServerNetworkManager();
 
-            new ServerTerminalManager(scanner,serverNetworkManager).start();
+            new ServerTerminalManager(scanner, serverNetworkManager).start();
             serverNetworkManager.start();
 
 
