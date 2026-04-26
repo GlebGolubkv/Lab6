@@ -18,7 +18,7 @@ import java.time.ZonedDateTime;
 public class ServerNetworkManager {
 
 
-    private static final int PORT = 8888;
+    private static final int PORT = 7777;
     private static final String HOSTNAME = "localhost";
     private static final int bufferSize = 65535;
     private static final SocketAddress socketAddress = new InetSocketAddress(HOSTNAME, PORT);

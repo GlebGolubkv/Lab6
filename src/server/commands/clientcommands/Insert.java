@@ -5,6 +5,9 @@ import server.data.ClassesManager;
 import server.data.generators.KeyGenerator;
 import common.dataclasses.MusicBand;
 import common.Response;
+import server.postgres.CommandsDAO;
+
+import java.sql.SQLException;
 
 public class Insert extends Command {
     @Override
@@ -21,7 +24,10 @@ public class Insert extends Command {
     public Response execute(String value1, MusicBand musicBand) {
         StringBuilder stringBuilder = new StringBuilder();
         int key = keyChek(value1, stringBuilder);
-        ClassesManager.getInstance().addMusicBandToCollection(key, musicBand);
+
+        MusicBand qlMusicBand = CommandsDAO.insertMusicBand(key, musicBand,2 );
+        ClassesManager.getInstance().addMusicBandToCollection(key, qlMusicBand);
+
 
         return new Response(true, "Insert successfully completed.", stringBuilder);
 

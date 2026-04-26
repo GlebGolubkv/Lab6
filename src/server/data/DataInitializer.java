@@ -3,6 +3,7 @@ package server.data;
 import common.JsonDataMapper;
 import server.filemanager.*;
 import server.filemanager.BandsFileReader;
+import server.postgres.ConnectionInitializer;
 
 /**
  * Centralizes the initialization of all application components.
@@ -38,6 +39,7 @@ public class DataInitializer {
         JsonDateReader.initialize(fileName);
         JsonCleaner.initialize(fileName);
         ClassesManager.initialize();
+        ConnectionInitializer.initialize();
 
     }
 
