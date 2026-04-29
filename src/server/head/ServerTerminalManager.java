@@ -1,8 +1,5 @@
 package server.head;
 
-import server.commands.servercommands.Save;
-import server.data.ClassesManager;
-
 import java.util.Scanner;
 
 
@@ -20,22 +17,18 @@ public class ServerTerminalManager {
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
 
-            System.out.println(new Save().execute().getMessage());
             System.out.println("Shutting down...");
 
         }));
 
         Thread thread = new Thread(() -> {
 
-            System.out.println("Console active (commands: save, help)");
+            System.out.println("Console active (commands: exit)");
 
             while (true) {
                 String command = scanner.nextLine().toLowerCase().trim();
 
                 switch (command) {
-                    case "save" -> {
-                        System.out.println(new Save().execute().getMessage());
-                    }
 
                     case "exit" -> {
                         serverNetworkManager.makeShutdown();

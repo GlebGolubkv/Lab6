@@ -12,10 +12,12 @@ public class ClientTerminalManager {
 
     public Scanner scanner;
     public ClientNetworkManager clientNetworkManager;
+    public int ClientId;
 
-    public ClientTerminalManager(ClientNetworkManager clientNetworkManager, Scanner scanner) {
+    public ClientTerminalManager(ClientNetworkManager clientNetworkManager, Scanner scanner, int ClientId) {
         this.clientNetworkManager = clientNetworkManager;
         this.scanner = scanner;
+        this.ClientId = ClientId;
     }
 
 
@@ -24,29 +26,34 @@ public class ClientTerminalManager {
 
         while (true) {
 
-            try{
+            try {
 
-            System.out.println();
-            System.out.print("> ");
-            String command = scanner.nextLine().toLowerCase().trim();
-            System.out.println();
-
-            Request request = makeRequest(command, scanner);
-
-
-            Response response = clientNetworkManager.sendRequest(request);
-            if (response.isSuccess()) {
-                System.out.println(Colors.CYAN + response.getMessage() + Colors.RESET);
-
-                if (response.getData() != null) {
-                    System.out.println(response.getData());
-                }
-            } else {
-                System.err.println(response.getMessage());
+                System.out.println();
+                System.out.print("> ");
+                String command = scanner.nextLine().toLowerCase().trim();
                 System.out.println();
 
-            }} catch (Exception e) {
-                System.err.println("Error: " + e.getMessage());;
+                Request request = makeRequest(command, scanner);
+
+
+                Response response = clientNetworkManager.sendRequest(request);
+                if (response.isInternalOnly()) {
+                    System.out.println("Internal only"); //!!!!!!!!!
+                }
+                if (response.isSuccess()) {
+                    System.out.println(Colors.CYAN + response.getMessage() + Colors.RESET);
+
+                    if (response.getData() != null) {
+                        System.out.println(response.getData());
+                    }
+                } else {
+                    System.err.println(response.getMessage());
+                    System.out.println();
+
+                }
+            } catch (Exception e) {
+                System.err.println("Error: " + e.getMessage());
+                ;
             }
 
         }
@@ -61,27 +68,26 @@ public class ClientTerminalManager {
 
         String[] command = line.split("\\s+");
 
-        if (command[0].equals("exit")){
+        if (command[0].equals("exit")) {
             System.out.println("Shouting down...");
             System.exit(0);
         }
-        // проверка на 3 и более аргументов
-        if (command.length > 2) {
-            throw  new IllegalArgumentException("There are too many arguments for the function");
-        }
+
 
         // Получаем аргумент
         if (command.length > 1) {
             argumentName = command[1].toLowerCase();
         }
 
-
-
         // Проверяем команду
         if (CommandType.contains(command[0])) {
             commandName = CommandType.fromName(command[0]);
         } else {
             throw new IllegalArgumentException("Unknown command: " + command[0]);
+        }
+
+        if (command.length > 2) {
+            throw new IllegalArgumentException("There are too many arguments for the function");
         }
 
         // Проверяем MusicBand
@@ -95,8 +101,8 @@ public class ClientTerminalManager {
         }
 
         //Проверка аргумента
-        if (commandName.validateInput(argumentName, inputMusicBand)){
-            return new Request(commandName, argumentName, inputMusicBand);
+        if (commandName.validateInput(argumentName, inputMusicBand)) {
+            return new Request(commandName, argumentName, inputMusicBand, ClientId);
         } else {
             throw new IllegalArgumentException(commandName.getValidationError(argumentName, inputMusicBand));
         }

@@ -22,7 +22,11 @@ public class Client {
 
         try (ClientNetworkManager clientNetworkManager = new ClientNetworkManager(host, port)) {
 
-            new ClientTerminalManager(clientNetworkManager, scanner).start();
+         UsersDTO user = new UsersDTO(scanner, clientNetworkManager);
+         user.enterCommand();
+         int userId = user.getId();
+
+            new ClientTerminalManager(clientNetworkManager, scanner, userId).start();
 
 
         } catch (Exception e) {

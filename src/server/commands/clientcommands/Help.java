@@ -13,13 +13,13 @@ public class Help extends Command {
 
 
     @Override
-    public Response execute() {
+    public Response execute(int client_id) {
 
         StringBuilder stringBuilder = new StringBuilder();
 
         stringBuilder.append(Colors.GREEN + "Commands: " + Colors.RESET + "\n");
 
-        DataCommands.getInstance().getCommands().stream()
+        DataCommands.getInstance().getCommands().stream().filter(e -> !e.isInternalOnly())
                 .sorted((a, b) -> (b.getCommandName().length() - a.getCommandName().length()))
                 .forEach(name -> stringBuilder.append(Colors.WHITE + "Command: " + Colors.GREEN
                 + name.getCommandName() +
@@ -33,18 +33,18 @@ public class Help extends Command {
     }
 
     @Override
-    public Response execute(String value1) {
+    public Response execute(String value1,int client_id) {
 
         throw new IllegalArgumentException("Not supported");
     }
 
     @Override
-    public Response execute(String value1, MusicBand value2) {
+    public Response execute(String value1, MusicBand value2,int client_id) {
         throw new IllegalArgumentException("Not supported");
     }
 
     @Override
-    public Response execute(MusicBand value1) {
+    public Response execute(MusicBand value1,int client_id) {
         throw new IllegalArgumentException("Not supported");
     }
 

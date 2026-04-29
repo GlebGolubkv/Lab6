@@ -7,6 +7,13 @@ public class Response {
     private boolean success;
     private String message;
     private StringBuilder data;
+    private boolean internalOnly;
+
+    public int getServerData() {
+        return serverData;
+    }
+
+    private int serverData;
 
     public Response() {
     }
@@ -16,6 +23,21 @@ public class Response {
         this.success = success;
         this.message = message;
         this.data = null;
+
+    }
+
+
+    public Response(boolean success, String message, boolean internalOnly) {
+        this.success = success;
+        this.message = message;
+        this.internalOnly = internalOnly;
+    }
+
+    public Response(boolean success, String message, boolean internalOnly, int serverData) {
+        this.success = success;
+        this.message = message;
+        this.internalOnly = internalOnly;
+        this.serverData = serverData;
     }
 
     public Response(boolean success, String message, StringBuilder data) {
@@ -44,6 +66,8 @@ public class Response {
     public StringBuilder getData() {
         return data;
     }
+
+    public boolean isInternalOnly() {return internalOnly;}
 
     @Override
     public String toString() {

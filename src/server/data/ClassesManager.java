@@ -5,8 +5,8 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import common.dataclasses.MusicBand;
 import common.JsonDataMapper;
-import server.filemanager.JsonParser;
 import common.dataclasses.Colors;
+import server.postgres.CommandsDAO;
 
 
 import java.util.Hashtable;
@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
  */
 public class ClassesManager {                           // переписать метод tostring в отдельный метод
     private static ClassesManager instance;
-    private final Hashtable<Integer, MusicBand> Map;
+    private Hashtable<Integer, MusicBand> Map;
     private boolean inTransaction = false;
     private Hashtable<Integer, MusicBand> tempMap;
 
@@ -29,7 +29,8 @@ public class ClassesManager {                           // переписать 
      * Private constructor that initializes the collection by reading data from a file.
      */
     private ClassesManager() {
-        Map = JsonParser.getInstance().readAllClassesAtFile();
+//        Map = JsonParser.getInstance().readAllClassesAtFile();
+        Map = CommandsDAO.readFromPostgres();
     }
 
     /**
@@ -70,16 +71,6 @@ public class ClassesManager {                           // переписать 
      */
     public int mapSize() {
         return getActiveMap().size();
-    }
-
-
-    /**
-     * Returns the creation time of the underlying data file.
-     *
-     * @return a string representing the file's creation time
-     */
-    public String getCreationDate() {
-        return JsonParser.getInstance().getCreationTimeOfFile();
     }
 
 
@@ -158,18 +149,6 @@ public class ClassesManager {                           // переписать 
 
 
     /**
-     * Saves the current collection to the file using JsonParser.
-     */
-    public void saveCollectionToFile() {
-        if (inTransaction) {
-            commitTransaction();
-        }
-        JsonParser jsonParser = JsonParser.getInstance();
-        jsonParser.writeLibraryToFile(Map);
-    }
-
-
-    /**
      * Removes all elements from the collection.
      */
     public void clearCollection() {
@@ -204,34 +183,4 @@ public class ClassesManager {                           // переписать 
         }
     }
 
-    public void beginTransaction() {
-        if (isInTransaction()) {
-            throw new RuntimeException("Transaction is already in progress");
-        }
-        tempMap = deepCopy(Map);
-        inTransaction = true;
-
-    }
-
-
-    public void commitTransaction() {
-        if (!isInTransaction()) {
-            throw new RuntimeException("Transaction is not in progress");
-        }
-        Map.clear();
-        Map.putAll(tempMap);
-        tempMap = null;
-        inTransaction = false;
-
-
-    }
-
-    public void rollbackTransaction() {
-        if (!isInTransaction()) {
-            throw new RuntimeException("Transaction is not in progress");
-        }
-        tempMap = null;
-        inTransaction = false;
-
-    }
 }

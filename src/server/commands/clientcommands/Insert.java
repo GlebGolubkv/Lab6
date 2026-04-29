@@ -11,21 +11,21 @@ import java.sql.SQLException;
 
 public class Insert extends Command {
     @Override
-    public Response execute() {
+    public Response execute(int client_id) {
         throw new IllegalArgumentException("Not supported");
     }
 
     @Override
-    public Response execute(String value1) {
+    public Response execute(String value1,int client_id) {
         throw new IllegalArgumentException("Not supported");
     }
 
     @Override
-    public Response execute(String value1, MusicBand musicBand) {
+    public Response execute(String value1, MusicBand musicBand,int client_id) {
         StringBuilder stringBuilder = new StringBuilder();
         int key = keyChek(value1, stringBuilder);
 
-        MusicBand qlMusicBand = CommandsDAO.insertMusicBand(key, musicBand,2 );
+        MusicBand qlMusicBand = CommandsDAO.insertMusicBand(key, musicBand, client_id );
         ClassesManager.getInstance().addMusicBandToCollection(key, qlMusicBand);
 
 
@@ -34,7 +34,7 @@ public class Insert extends Command {
     }
 
     @Override
-    public Response execute(MusicBand value1) {
+    public Response execute(MusicBand value1,int client_id) {
         throw new IllegalArgumentException("Not supported");
     }
 

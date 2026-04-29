@@ -5,6 +5,8 @@ import common.dataclasses.CommandType;
 import common.Response;
 import server.commands.*;
 import server.commands.clientcommands.*;
+import server.commands.internalcommands.CheckName;
+import server.commands.internalcommands.InsertUser;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -67,8 +69,8 @@ public class DataCommands {
         commands.put(CommandType.COUNT_BY_NUMBER_OF_PARTICIPANTS, new CountByNumberOfParticipants());
         commands.put(CommandType.FILTER_LESS_THEN_LABEL, new FilterLessThanLabel());
         commands.put(CommandType.PRINT_FIELD_DESCENDING_LABEL, new PrintFieldDescendingLabel());
-        commands.put(CommandType.BEGIN_TRANSACTION, new BeginTransaction());
-        commands.put(CommandType.COMMIT_TRANSACTION, new CommitTransaction());
+        commands.put(CommandType.CHECK_NAME, new CheckName());
+        commands.put(CommandType.INSERT_USER, new InsertUser());
     }
 
     /**
@@ -104,21 +106,21 @@ public class DataCommands {
     }
 
 
-    public Response createCommand(CommandType commandType, String argument, MusicBand musicBand) {
+    public Response createCommand(CommandType commandType, String argument, MusicBand musicBand, int clientId) {
 
 
         if (commandType.requiresArgument() && commandType.requiresMusicBand()){
 
-            return commands.get(commandType).execute(argument, musicBand);
+            return commands.get(commandType).execute(argument, musicBand, clientId);
 
         } else if (commandType.requiresArgument()){
-            return commands.get(commandType).execute(argument);
+            return commands.get(commandType).execute(argument, clientId);
 
         } else if (commandType.requiresMusicBand()){
-            return commands.get(commandType).execute(musicBand);
+            return commands.get(commandType).execute(musicBand, clientId);
 
         } else  {
-            return commands.get(commandType).execute();
+            return commands.get(commandType).execute(clientId);
         }
     }
 

@@ -9,87 +9,91 @@ public enum CommandType {
             "begin_transaction",
             "начать транзакцию",
             false,
-            false),
+            false, false),
     CLEAR(
             "clear",
             "очистить коллекцию",
             false,
-            false),
+            false, false),
     COMMIT_TRANSACTION(
             "commit_transaction",
             "зафиксировать транзакцию",
             false,
-            false),
+            false, false),
     COUNT_BY_NUMBER_OF_PARTICIPANTS(
             "count_by_number_of_participants",
             "вывести количество элементов с заданным numberOfParticipants",
             true,
-            false),
+            false, false),
     EXECUTE_SCRIPT(
             "execute_script",
             "считать и исполнить скрипт из файла",
             true,
-            false),
+            false, false),
 
     FILTER_LESS_THEN_LABEL(
             "filter_less_then_label",
             "вывести элементы с label меньше заданного",
             true,
-            false),
+            false, false),
     HELP(
             "help",
             "вывести справку по командам",
             false,
-            false),
+            false, false),
     INFO(
             "info",
             "вывести информацию о коллекции",
             false,
-            false),
+            false, false),
     INSERT(
             "insert",
             "добавить новый элемент с заданным ключом",
             true,
-            true),
+            true, false),
     PRINT_FIELD_DESCENDING_LABEL(
             "print_field_descending_label",
             "вывести label в порядке убывания",
             false,
-            false),
+            false, false),
     REMOVE_KEY("remove_key",
             "удалить элемент по ключу",
             true,
-            false),
+            false, false),
     REMOVE_LOWER(
             "remove_lower",
             "удалить элементы меньшие чем заданный",
             false,
-            true),
+            true, false),
     REPLACE_IF_GREATER(
             "replace_if_greater",
             "заменить если новое больше",
             true,
-            true),
+            true, false),
     REPLACE_IF_LOWER(
             "replace_if_lower",
             "заменить если новое меньше",
             true,
-            true),
+            true, false),
     SHOW(
             "show",
             "вывести все элементы коллекции",
             false,
-            false),
+            false, false),
     UPDATE(
             "update",
             "обновить элемент по id",
             true,
-            true);
+            true, false),
+    CHECK_NAME("check_name", "проверить существование id",
+            true, false, true),
+    INSERT_USER("insert_user", "добавить пользователя", true, false, true);
 
     private final String commandName;
     private final String description;
     private final boolean requiresArgument;
     private final boolean requiresMusicBand;
+    private final boolean isInternalOnly;
 
     private static final Map<String, CommandType> BY_NAME = new HashMap<>();
 
@@ -99,11 +103,12 @@ public enum CommandType {
         }
     }
 
-    CommandType(String commandName, String description, boolean requiresArgument, boolean requiresMusicBand) {
+    CommandType(String commandName, String description, boolean requiresArgument, boolean requiresMusicBand, boolean isInternalOnly) {
         this.commandName = commandName;
         this.description = description;
         this.requiresArgument = requiresArgument;
         this.requiresMusicBand = requiresMusicBand;
+        this.isInternalOnly = isInternalOnly;
     }
 
     public String getCommandName() {
@@ -120,6 +125,10 @@ public enum CommandType {
 
     public boolean requiresMusicBand() {
         return requiresMusicBand;
+    }
+
+    public boolean isInternalOnly() {
+        return isInternalOnly;
     }
 
     public static CommandType fromName(String name) {
@@ -166,4 +175,6 @@ public enum CommandType {
         }
         return null;
     }
+
+
 }

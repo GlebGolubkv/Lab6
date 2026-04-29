@@ -4,6 +4,7 @@ import server.commands.Command;
 import server.data.ClassesManager;
 import common.dataclasses.MusicBand;
 import common.Response;
+import server.postgres.CommandsDAO;
 
 import java.util.Hashtable;
 
@@ -11,27 +12,32 @@ public class Update extends Command {
 
 
     @Override
-    public Response execute() {
+    public Response execute(int client_id) {
         throw new IllegalArgumentException("Not supported");
     }
 
     @Override
-    public Response execute(String value1) {
+    public Response execute(String value1, int client_id) {
         throw new IllegalArgumentException("Not supported");
     }
 
     @Override
-    public Response execute(String value1, MusicBand value2) {
+    public Response execute(String value1, MusicBand value2, int client_id) {
         StringBuilder stringBuilder = new StringBuilder();
+        int id = CheckInteger(value1);
+        if (CommandsDAO.updateMusicBandById(id, value2, client_id)) {
+            int key = RemoveBandByID(id, stringBuilder);
+            ClassesManager.getInstance().getMap().put(key, value2);
+            return new Response(true, "Update  successfully completed.", stringBuilder);
 
-        int key = RemoveBandByID(CheckInteger(value1), stringBuilder);
-        ClassesManager.getInstance().getMap().put(key, value2);
-        return new Response(true, "Update  successfully completed.", stringBuilder);
+        }
+        return new Response(false, "Update failed.There is no object with this ID. ID: " + id, stringBuilder);
+
 
     }
 
     @Override
-    public Response execute(MusicBand value1) {
+    public Response execute(MusicBand value1, int client_id) {
         throw new IllegalArgumentException("Not supported");
     }
 

@@ -29,17 +29,13 @@ public class DataInitializer {
      */
     private DataInitializer(String fileName) {
 
+        ConnectionInitializer.initialize();
         JsonDataMapper.initialize();
         DataCommands.initialize();
         BandsFileReader.initialize();
         CommandsReader.initialize();
-        JsonWriter.initialize(fileName);
-        JsonReader.initialize(fileName);
-        JsonParser.initialize();
-        JsonDateReader.initialize(fileName);
-        JsonCleaner.initialize(fileName);
         ClassesManager.initialize();
-        ConnectionInitializer.initialize();
+
 
     }
 

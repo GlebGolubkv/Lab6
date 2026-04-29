@@ -15,14 +15,14 @@ public abstract class Command {
     /**
      * Executes the command without any parameters.
      */
-    public abstract Response execute();
+    public abstract Response execute(int clintId);
 
     /**
      * Executes the command with a single string parameter.
      *
      * @param value1 the string argument for the command
      */
-    public abstract Response execute(String value1);
+    public abstract Response execute(String value1, int clintId);
 
     /**
      * Executes the command with a string parameter and a MusicBand object.
@@ -30,14 +30,14 @@ public abstract class Command {
      * @param value1 the string argument for the command
      * @param value2 the MusicBand object to be processed
      */
-    public abstract Response execute(String value1, MusicBand value2);
+    public abstract Response execute(String value1, MusicBand value2, int clintId);
 
     /**
      * Executes the command with a MusicBand object.
      *
      * @param value1 the MusicBand object to be processed
      */
-    public abstract Response execute(MusicBand value1);
+    public abstract Response execute(MusicBand value1, int clintId);
 
     /**
      * Provides information about the command.

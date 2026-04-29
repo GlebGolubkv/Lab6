@@ -6,22 +6,22 @@ import server.data.ClassesManager;
 import common.dataclasses.MusicBand;
 import common.Response;
 import common.dataclasses.Colors;
+import server.postgres.CommandsDAO;
 
 
 public class RemoveKey extends Command {
     @Override
-    public Response execute() {
+    public Response execute(int client_id) {
         throw new IllegalArgumentException("Not supported");
 
     }
 
     @Override
-    public Response execute(String value1) {
+    public Response execute(String value1,int client_id) {
         int key = checkInteger(value1);
         ClassesManager cm = ClassesManager.getInstance();
-        if (cm.keyInMap(key)) {
+        if (CommandsDAO.removeMusicBand(key)) {
             cm.removeMusicBandFromCollection(key);
-
 
             StringBuilder stringBuilder = new StringBuilder().append("Key " + Colors.GREEN + key + Colors.RESET + " removed");
 
@@ -36,12 +36,12 @@ public class RemoveKey extends Command {
     }
 
     @Override
-    public Response execute(String value1, MusicBand value2) {
+    public Response execute(String value1, MusicBand value2,int client_id) {
         throw new IllegalArgumentException("Not supported");
     }
 
     @Override
-    public Response execute(MusicBand value1) {
+    public Response execute(MusicBand value1,int client_id) {
         throw new IllegalArgumentException("Not supported");
     }
 

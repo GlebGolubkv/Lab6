@@ -8,13 +8,13 @@ import common.dataclasses.Colors;
 
 public class FilterLessThanLabel extends Command {
     @Override
-    public Response execute() {
+    public Response execute(int client_id) {
         throw new IllegalArgumentException("Not supported");
     }
 
 
     @Override
-    public Response execute(String value1) {
+    public Response execute(String value1,int client_id) {
         int label = checkInteger(value1);
         ClassesManager classesManager = ClassesManager.getInstance();
 
@@ -34,12 +34,12 @@ public class FilterLessThanLabel extends Command {
     }
 
     @Override
-    public Response execute(String value1, MusicBand value2) {
+    public Response execute(String value1, MusicBand value2,int client_id) {
         throw new IllegalArgumentException("Not supported");
     }
 
     @Override
-    public Response execute(MusicBand value1) {
+    public Response execute(MusicBand value1,int client_id) {
         throw new IllegalArgumentException("Not supported");
     }
 

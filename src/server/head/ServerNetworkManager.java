@@ -18,7 +18,7 @@ import java.time.ZonedDateTime;
 public class ServerNetworkManager {
 
 
-    private static final int PORT = 7777;
+    private static final int PORT = 8887;
     private static final String HOSTNAME = "localhost";
     private static final int bufferSize = 65535;
     private static final SocketAddress socketAddress = new InetSocketAddress(HOSTNAME, PORT);
@@ -72,8 +72,7 @@ public class ServerNetworkManager {
                     //Блок отправки ответа
                     sendResponse(response, sender, socket);
 
-                } catch (SocketTimeoutException e) {
-                    continue;
+                } catch (SocketTimeoutException ignored) {
                 }
             }
 
@@ -87,14 +86,18 @@ public class ServerNetworkManager {
 
         Request request = Request.fromJson(new String(packet.getData(), 0, packet.getLength(), "UTF-8"));
 
-        System.out.println();
-        System.out.println("Got request: " + request.getCommandType() + " : " + request.getArgument());
-        System.out.println("Time: " + ZonedDateTime.now());
-
-
         CommandType commandType = request.getCommandType();
         String commandArgument = request.getArgument();
         MusicBand musicBand = request.getMusicBand();
+        int clientId = request.getClientId();
+
+        System.out.println();
+        System.out.println("Got request: " + commandType + " : " + commandArgument);
+        System.out.println("Client Id: " + clientId);
+        System.out.println("Time: " + ZonedDateTime.now());
+
+
+
 
         musicBand = new IDGenerator().validateId(musicBand);
 
@@ -102,7 +105,7 @@ public class ServerNetworkManager {
         if (commandType.validateInput(commandArgument, musicBand)) {
 
 
-            return DataCommands.getInstance().createCommand(commandType, commandArgument, musicBand);
+            return DataCommands.getInstance().createCommand(commandType, commandArgument, musicBand,  clientId);
         } else {
 
             throw new IllegalArgumentException("Invalid command type");
@@ -123,7 +126,7 @@ public class ServerNetworkManager {
 
         try {
             socket.send(packet);
-            System.out.println("Sent request to: " + sender.getAddress() + ":" + sender.getPort());
+            System.out.println("Sent response to: " + sender.getAddress() + ":" + sender.getPort());
         } catch (IOException e) {
             e.printStackTrace();
         }

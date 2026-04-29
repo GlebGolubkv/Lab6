@@ -8,14 +8,20 @@ public class Request {
     private CommandType commandType;
     private String argument;
     private MusicBand musicBand;
+    private int clientId;
 
     public Request() {
     }
 
-    public Request(CommandType commandType, String argument, MusicBand musicBand) {
+    public void setCommandType(CommandType commandType) {
+        this.commandType = commandType;
+    }
+
+    public Request(CommandType commandType, String argument, MusicBand musicBand, int clientId) {
         this.commandType = commandType;
         this.argument = argument;
         this.musicBand = musicBand;
+        this.clientId = clientId;
     }
 
 
@@ -40,5 +46,9 @@ public class Request {
 
     public String getArgument() {
         return argument;
+    }
+
+    public int getClientId() {
+        return clientId;
     }
 }

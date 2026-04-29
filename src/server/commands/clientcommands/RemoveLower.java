@@ -4,27 +4,28 @@ import server.commands.Command;
 import server.data.ClassesManager;
 import common.dataclasses.MusicBand;
 import common.Response;
+import server.postgres.CommandsDAO;
 
 import java.util.List;
 
 public class RemoveLower extends Command {
     @Override
-    public Response execute() {
+    public Response execute(int client_id) {
         throw new IllegalArgumentException("Not supported");
     }
 
     @Override
-    public Response execute(String value1) {
+    public Response execute(String value1,int client_id) {
         throw new IllegalArgumentException("Not supported");
     }
 
     @Override
-    public Response execute(String value1, MusicBand value2) {
+    public Response execute(String value1, MusicBand value2,int client_id) {
         throw new IllegalArgumentException("Not supported");
     }
 
     @Override
-    public Response execute(MusicBand value1) {
+    public Response execute(MusicBand value1, int client_id) {
 
         List<String> collect = ClassesManager.getInstance().getMap().keySet()
                 .stream()
@@ -37,7 +38,7 @@ public class RemoveLower extends Command {
 
         for (String key : collect) {
 
-            stringBuilder.append(new RemoveKey().execute(key).getData()).append("\n");
+            stringBuilder.append(new RemoveKey().execute(key, client_id).getData()).append("\n");
 
         }
 

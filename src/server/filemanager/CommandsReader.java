@@ -89,20 +89,17 @@ public class CommandsReader {
                         // Выкидывает ошибку, если что-то пошло не так
                         MusicBand musicBand = checkIfBandsInput(bufferedReader, line);
                         if (commands.length > 1 && musicBand != null) {
-                            stringBuilder.append(DataCommands.getInstance().createCommand(CommandType.fromName(commands[0]), commands[1], musicBand).getData());
+                            stringBuilder.append(DataCommands.getInstance().createCommand(CommandType.fromName(commands[0]), commands[1], musicBand, 1).getData());
                         } else if (commands.length > 1) {
-                            stringBuilder.append(DataCommands.getInstance().createCommand(CommandType.fromName(commands[0]), commands[1], null).getData());
+                            stringBuilder.append(DataCommands.getInstance().createCommand(CommandType.fromName(commands[0]), commands[1], null, 1).getData());
                         } else {
-                            stringBuilder.append(DataCommands.getInstance().createCommand(CommandType.fromName(commands[0]), null, null).getData());
+                            stringBuilder.append(DataCommands.getInstance().createCommand(CommandType.fromName(commands[0]), null, null, 1).getData());
                         }
 
                         stringBuilder.append("\n");
                         stringBuilder.append("\n" + Colors.CYAN + "Command " + line + " processed" + Colors.RESET + "\n");
 
                     } catch (Exception e) {
-                        if (ClassesManager.getInstance().isInTransaction()) {
-                            ClassesManager.getInstance().rollbackTransaction();
-                        }
                         stringBuilder.append("\n");
                         stringBuilder.append(Colors.RED + "Error reading from file: " + line + Colors.RESET);
 

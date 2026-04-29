@@ -5,25 +5,23 @@ import server.data.ClassesManager;
 import common.dataclasses.MusicBand;
 import common.Response;
 import common.dataclasses.Colors;
-
-import java.util.Scanner;
+import server.postgres.CommandsDAO;
 
 public class ReplaceIfLower extends Command {
     @Override
-    public Response execute() {
+    public Response execute(int client_id) {
         throw new IllegalArgumentException("Not supported");
     }
 
     @Override
-    public Response execute(String value1) {
+    public Response execute(String value1,int client_id) {
         throw new IllegalArgumentException("Not supported");
     }
 
     @Override
-    public Response execute(String value1, MusicBand value2) {
+    public Response execute(String value1, MusicBand value2,int client_id) {
 
         int key = checkInteger(value1);
-        Scanner scanner = new Scanner(System.in);
         ClassesManager cm = ClassesManager.getInstance();
         MusicBand oldMusicBand = cm.getMap().get(key);
         if (oldMusicBand == null) {
@@ -31,17 +29,23 @@ public class ReplaceIfLower extends Command {
         }
 
         if (value2.compareTo(oldMusicBand) < 0) {
-            StringBuilder stringBuilder = new StringBuilder().append("Key " + Colors.GREEN + key + Colors.RESET + " replaced");
-            cm.getMap().put(key, value2);
 
-            return new Response(true, "ReplaceIfLower successfully completed.", stringBuilder);
+            if (CommandsDAO.updateMusicBandByKey(key, value2, client_id)) {
+
+                cm.getMap().put(key, value2);
+                StringBuilder stringBuilder = new StringBuilder().append("Key " + Colors.GREEN + key + Colors.RESET + " replaced");
+                return new Response(true, "ReplaceIfLower successfully completed.", stringBuilder);
+            } else {
+                return new Response(false, "The replacement object was not found");
+            }
+
         }
         return new Response(true, "ReplaceIfLower successfully completed.");
 
     }
 
     @Override
-    public Response execute(MusicBand value1) {
+    public Response execute(MusicBand value1,int client_id) {
         throw new IllegalArgumentException("Not supported");
     }
 
